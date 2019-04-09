@@ -1,0 +1,29 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: "3.1"
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: ac-nginx
+    working_dir: /application
+    volumes:
+      - ./project:/application
+      - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8081:80"
+
+  php:
+    build:
+      context: phpdocker/php-fpm
+    container_name: ac-php
+    working_dir: /application
+    env_file:
+      - phpdocker/.env.local
+
+
+    volumes:
+      - ./project:/application
+      - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
+
