@@ -1,7 +1,7 @@
 ###############################################################################
 #                          Generated on phpdocker.io                          #
 ###############################################################################
-version: "3.1"
+version: "3.7"
 services:
 
   nginx:
@@ -20,8 +20,8 @@ services:
     container_name: ac-php
     working_dir: /application
     env_file:
+      - phpdocker/.env
       - phpdocker/.env.local
-
 
     volumes:
       - ./project:/application
