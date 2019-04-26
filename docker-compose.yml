@@ -7,6 +7,8 @@ services:
   nginx:
     image: nginx:alpine
     container_name: ac-nginx
+    depends_on:
+      - php
     working_dir: /application
     volumes:
       - ./project:/application
@@ -22,8 +24,19 @@ services:
     env_file:
       - phpdocker/.env
       - phpdocker/.env.local
-
     volumes:
       - ./project:/application
       - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer
+    command: -H unix:///var/run/docker.sock
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  portainer_data:
 
