@@ -17,8 +17,10 @@ RUN apt-get -y install vim zsh \
 RUN zsh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 RUN git clone https://github.com/shengyou/codeception-zsh-plugin.git /root/.oh-my-zsh/custom/plugins/codeception
 RUN git clone https://gitlab.com/code-stats/code-stats-zsh.git /root/.oh-my-zsh/custom/plugins/codestats
-COPY zshrc "/root/.zshrc"
 
+COPY zshrc "/root/.zshrc"
 COPY vimrc "/root/.vimrc"
+
+RUN 'composer install'
 
 SHELL ["zsh"]
