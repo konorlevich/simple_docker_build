@@ -1,12 +1,13 @@
 ###############################################################################
 #                          Generated on phpdocker.io                          #
 ###############################################################################
-version: "3.7"
+version: "3"
 services:
 
   nginx:
     image: nginx:alpine
-    container_name: ac-nginx
+    container_name: ${APP_NAME:?app}-nginx
+    restart: always
     depends_on:
       - php
     working_dir: /application
@@ -19,7 +20,10 @@ services:
   php:
     build:
       context: phpdocker/php-fpm
-    container_name: ac-php
+    container_name: ${APP_NAME:?app}-php
+    restart: always
+    depends_on:
+      - db
     working_dir: /application
     env_file:
       - phpdocker/.env
@@ -28,11 +32,21 @@ services:
       - ./project:/application
       - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
 
+  db:
+    container_name: ${APP_NAME:?app}-db
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+
   portainer:
     container_name: portainer
     image: portainer/portainer
     command: -H unix:///var/run/docker.sock
     restart: always
+    ports:
+      - "9000:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data

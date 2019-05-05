@@ -26,6 +26,14 @@ cp phpdocker/.env phpdocker/.env.local
 ```
 Put your [CODESTATS_KEY] to [.env.local](phpdocker/.env.local)
 
+[Container name] must be unique  
+If you run multiple projects based on this build, you can specify `APP_NAME` variable before building  
+
+```bash
+export APP_NAME=example_app
+```
+All container names will be prefixed with value
+
 And run containers
 
 ```bash
@@ -64,6 +72,7 @@ I _really_ do not recommend you to running your project with this build in produ
 [docker-compose]: https://docs.docker.com/compose/install/
 [3 or higher]: https://docs.docker.com/compose/compose-file/
 [CODESTATS_KEY]: https://codestats.net/my/machines
+[Container name]: https://docs.docker.com/compose/compose-file/#container_name
 [Phpdocker generator]: https://phpdocker.io/
 [Nginx]: https://nginx.org/
 [PHP]: https://www.php.net/
